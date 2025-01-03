@@ -1,100 +1,100 @@
-'use client';
+import { useRef, useState, useEffect } from 'react';
+import { Play, Pause, RotateCcw } from 'react-feather';
+import { Button } from './Button'; // Assuming a Button component exists
+import Visualizer from './Visualizer'; // Assuming a Visualizer component exists
 
-import { useState, useRef, useEffect } from 'react';
-import Button from './Button';
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+};
 
-import { Play, Pause, RotateCcw } from 'lucide-react';
-import Visualizer from './visualizer';
-
-export default function AudioPlayer({ file, audioUrl }) {
+const AudioPlayer = ({ audioSrc }) => {
+  const audioRef = useRef(null);
+  const analyserRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const audioRef = useRef(null);
-  const audioContextRef = useRef(null);
-  const analyserRef = useRef(null);
-  const sourceRef = useRef(null);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audio = new Audio(audioSrc);
+    audioRef.current = audio;
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    const source = context.createMediaElementSource(audio);
+    analyserRef.current = context.createAnalyser();
+    source.connect(analyserRef.current);
+    analyserRef.current.connect(context.destination);
 
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration);
-    };
-
-    const handleTimeUpdate = () => {
+    audio.addEventListener('timeupdate', () => {
       setCurrentTime(audio.currentTime);
-    };
+    });
 
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-
-    return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-    };
-  }, []);
-
-  useEffect(() => {
-    const setupAudioContext = () => {
-      const audio = audioRef.current;
-      if (!audio) return;
-
-      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
-      analyserRef.current = audioContextRef.current.createAnalyser();
-      analyserRef.current.fftSize = 256;
-
-      sourceRef.current = audioContextRef.current.createMediaElementSource(audio);
-      sourceRef.current.connect(analyserRef.current);
-      analyserRef.current.connect(audioContextRef.current.destination);
-    };
-
-    setupAudioContext();
+    audio.addEventListener('loadedmetadata', () => {
+      setDuration(audio.duration);
+    });
 
     return () => {
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
+      audio.removeEventListener('timeupdate', () => {});
+      audio.removeEventListener('loadedmetadata', () => {});
     };
-  }, []);
+  }, [audioSrc]);
 
   const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
     if (isPlaying) {
-      audio.pause();
+      audioRef.current.pause();
     } else {
-      audio.play();
+      audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
   };
 
-  
-
-  const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  const handleProgressChange = (e) => {
+    const newTime = parseFloat(e.target.value);
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
   };
 
   return (
-    <div className="w-full max-w-md mb-8">
-      <audio ref={audioRef} src={audioUrl} />
-      <div className="flex items-center justify-between mb-2">
-        <Button variant="outline" size="icon" onClick={togglePlayPause}>
-          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+    <div className="w-full max-w-[300px] mx-auto bg-gradient-to-b from-gray-900/50 to-black/50 backdrop-blur rounded-xl p-4">
+      <div className="mb-4 h-24 rounded-lg overflow-hidden bg-black/20">
+        {analyserRef.current && <Visualizer analyser={analyserRef.current} />}
+      </div>
+
+      <div className="mb-4">
+        <input
+          type="range"
+          value={currentTime}
+          max={duration}
+          onChange={handleProgressChange}
+          className="w-full h-1 bg-gray-600/30 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-400"
+        />
+        <div className="flex justify-between text-xs text-gray-400 mt-2">
+          <span>{formatTime(currentTime)}</span>
+          <span>{formatTime(duration)}</span>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center gap-4">
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 rounded-lg border border-gray-700 bg-black/50 hover:bg-gray-800 hover:border-cyan-500/50 transition-all"
+          onClick={() => audioRef.current?.load()}
+        >
+          <RotateCcw className="h-4 w-4 text-gray-400" />
         </Button>
-        <span className="text-sm text-gray-600">
-          {formatTime(currentTime)} / {formatTime(duration)}
-        </span>
-        <Button variant="outline" size="icon" onClick={() => audioRef.current?.load()}>
-          <RotateCcw className="h-4 w-4" />
+
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-12 w-12 rounded-full bg-gradient-to-tr from-pink-500 to-cyan-500 hover:from-pink-600 hover:to-cyan-600 border-0 transition-all duration-300"
+          onClick={togglePlayPause}
+        >
+          {isPlaying ? <Pause className="h-6 w-6 text-white" /> : <Play className="h-6 w-6 text-white ml-1" />}
         </Button>
       </div>
-      
-      {analyserRef.current && <Visualizer analyser={analyserRef.current} />}
     </div>
   );
-}
+};
+
+export default AudioPlayer;

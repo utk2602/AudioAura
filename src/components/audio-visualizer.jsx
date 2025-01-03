@@ -8,7 +8,7 @@ export default function AudioVisualizer({ file }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume] = useState(1);
+  const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [error, setError] = useState(null);
 
@@ -104,6 +104,15 @@ export default function AudioVisualizer({ file }) {
     }
   };
 
+  const handleVolumeChange = (e) => {
+    const newVolume = e.target.value;
+    setVolume(newVolume);
+    const audio = audioRef.current;
+    if (audio) {
+      audio.volume = newVolume;
+    }
+  };
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -129,17 +138,22 @@ export default function AudioVisualizer({ file }) {
       animationRef.current = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
 
-      ctx.fillStyle = 'rgba(16, 16, 48, 0.15)';
+      // Clear canvas with a gradient background
+      const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, Math.min(width, height) / 2);
+      gradient.addColorStop(0, 'rgba(16, 16, 48, 0.5)');
+      gradient.addColorStop(1, 'rgba(16, 16, 48, 0.1)');
+      ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
 
-      const time = Date.now() / 1000;
-      const radius = Math.min(width, height) * 0.3;
+      const radius = Math.min(width, height) * 0.4;
 
+      // Draw central circle with soft background color
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius * 0.3, 0, Math.PI * 2);
       ctx.fillStyle = '#10102F';
       ctx.fill();
 
+      // Draw frequency bars
       for (let i = 0; i < bufferLength; i++) {
         const amplitude = dataArray[i] / 255.0;
         const angle = (i / bufferLength) * Math.PI * 2;
@@ -147,33 +161,21 @@ export default function AudioVisualizer({ file }) {
 
         ctx.beginPath();
         ctx.moveTo(
-          centerX + Math.cos(angle + time) * radius * 0.3,
-          centerY + Math.sin(angle + time) * radius * 0.3
+          centerX + Math.cos(angle) * radius * 0.3,
+          centerY + Math.sin(angle) * radius * 0.3
         );
         ctx.lineTo(
-          centerX + Math.cos(angle + time) * (length + 50),
-          centerY + Math.sin(angle + time) * (length + 50)
+          centerX + Math.cos(angle) * (length + 50),
+          centerY + Math.sin(angle) * (length + 50)
         );
         ctx.strokeStyle = `rgba(0, 255, 255, ${amplitude * 0.8})`;
         ctx.lineWidth = 1.5;
         ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(
-          centerX + Math.cos(-angle + time * 0.5) * radius * 0.3,
-          centerY + Math.sin(-angle + time * 0.5) * radius * 0.3
-        );
-        ctx.lineTo(
-          centerX + Math.cos(-angle + time * 0.5) * (length + 30),
-          centerY + Math.sin(-angle + time * 0.5) * (length + 30)
-        );
-        ctx.strokeStyle = `rgba(255, 0, 128, ${amplitude * 0.8})`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
       }
 
+      // Draw animated triangles
       for (let i = 0; i < 5; i++) {
-        const triangleAngle = time * 0.2 + (i * Math.PI * 2) / 5;
+        const triangleAngle = Date.now() / 1000 * 0.2 + (i * Math.PI * 2) / 5;
         const triangleRadius = radius * 1.5;
 
         ctx.beginPath();
@@ -190,7 +192,7 @@ export default function AudioVisualizer({ file }) {
           centerY + Math.sin(triangleAngle - 0.4) * triangleRadius * 0.7
         );
         ctx.closePath();
-        ctx.strokeStyle = 'rgba(128, 0, 255, 0.3)';
+        ctx.strokeStyle = 'rgba(48, 21, 75, 0.3)';
         ctx.stroke();
       }
     };
@@ -230,13 +232,8 @@ export default function AudioVisualizer({ file }) {
               <Button variant="ghost" size="icon" className="text-cyan-400 hover:text-cyan-300">
                 <SkipBack className="h-6 w-6" />
               </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={togglePlayPause}
-                className="bg-pink-500 text-white hover:bg-pink-400 rounded-full w-16 h-16 flex items-center justify-center"
-              >
-                {isPlaying ? <Pause className="h-8 w-8" /> : <Play className="h-8 w-8" />}
+              <Button variant="outline" size="icon" onClick={togglePlayPause}>
+                {isPlaying ? <Pause /> : <Play />}
               </Button>
               <Button variant="ghost" size="icon" className="text-cyan-400 hover:text-cyan-300">
                 <SkipForward className="h-6 w-6" />
@@ -250,6 +247,15 @@ export default function AudioVisualizer({ file }) {
               <Button variant="ghost" size="icon" onClick={toggleMute} className="text-cyan-400 hover:text-cyan-300">
                 {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
               </Button>
+              <input
+                type="range"
+                value={volume}
+                onChange={handleVolumeChange}
+                step="0.01"
+                min="0"
+                max="1"
+                className="ml-4"
+              />
             </div>
           </div>
         </div>
@@ -257,4 +263,3 @@ export default function AudioVisualizer({ file }) {
     </div>
   );
 }
-
