@@ -1,0 +1,55 @@
+{
+  "hash": "a5d84a80",
+  "configHash": "1abfdb9f",
+  "lockfileHash": "ffbce28d",
+  "browserHash": "3e4b2ec8",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "ef66a366",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "acfd9e70",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "91ba284d",
+      "needsInterop": false
+    },
+    "scroll-lock": {
+      "src": "../../node_modules/scroll-lock/dist/scroll-lock.js",
+      "file": "scroll-lock.js",
+      "fileHash": "0f332240",
+      "needsInterop": true
+    },
+    "react-just-parallax": {
+      "src": "../../node_modules/react-just-parallax/dist/esm/index.js",
+      "file": "react-just-parallax.js",
+      "fileHash": "88f04e72",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "7dfa78c8",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-UP6LQVYV": {
+      "file": "chunk-UP6LQVYV.js"
+    },
+    "chunk-TWJRYSII": {
+      "file": "chunk-TWJRYSII.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
+}
