@@ -38,25 +38,22 @@ import {
   
   export const navigation = [
     {
-      id: "0",
-      title: "Features",
-      url: "#features",
-    },
-    {
       id: "1",
-      title: "Pricing",
-      url: "#pricing",
-    },
-    {
-      id: "2",
       title: "How to use",
       url: "#how-to-use",
     },
     {
-      id: "3",
+      id: "2",
       title: "Roadmap",
       url: "#roadmap",
     },
+    {
+      id: "3",
+      title: "Pricing",
+      url: "#pricing",
+    },
+    
+    
     {
       id: "4",
       title: "New account",
@@ -94,7 +91,7 @@ import {
   export const roadmap = [
     {
       id: "0",
-      title: "Voice recognition",
+      title: "Voice visualizayion ",
       text: "Enable the chatbot to understand and respond to voice commands, making it easier for users to interact with the app hands-free.",
       date: "May 2023",
       status: "done",
@@ -209,22 +206,22 @@ import {
     {
       id: "0",
       title: "Basic",
-      description: "AI chatbot, personalized recommendations",
+      description: "Basic Audio Visualization",
       price: "0",
       features: [
-        "An AI chatbot that can understand your queries",
-        "Personalized recommendations based on your preferences",
-        "Ability to explore the app and its features without any cost",
+        "You can upload and play your fav songs ",
+        "On top of that you can have some really cool visualizations ",
+        "The whole thing is sick if u get it for free ",
       ],
     },
     {
       id: "1",
       title: "Premium",
-      description: "Advanced AI chatbot, priority support, analytics dashboard",
-      price: "9.99",
+      description: "Advanced AI chatbot and priority support",
+      price: "3.33",
       features: [
-        "An advanced AI chatbot that can understand complex queries",
-        "An analytics dashboard to track your conversations",
+        "An advanced AI chatbot that can understand your queries",
+        "And edit the audios according to you in real time ",
         "Priority support to solve issues quickly",
       ],
     },
@@ -234,9 +231,9 @@ import {
       description: "Custom AI chatbot, advanced analytics, dedicated account",
       price: null,
       features: [
-        "An AI chatbot that can understand your queries",
-        "Personalized recommendations based on your preferences",
-        "Ability to explore the app and its features without any cost",
+        "Coming soon",
+        "Coming soon",
+        "Coming soon",
       ],
     },
   ];
@@ -267,31 +264,7 @@ import {
       iconUrl: benefitIcon3,
       imageUrl: benefitImage2,
     },
-    {
-      id: "3",
-      title: "Fast responding",
-      text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
-      backgroundUrl: "assets/benefits/card-4.svg",
-      iconUrl: benefitIcon4,
-      imageUrl: benefitImage2,
-      light: true,
-    },
-    {
-      id: "4",
-      title: "Ask anything",
-      text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
-      backgroundUrl: "assets/benefits/card-5.svg",
-      iconUrl: benefitIcon1,
-      imageUrl: benefitImage2,
-    },
-    {
-      id: "5",
-      title: "Improve everyday",
-      text: "The app uses natural language processing to understand user queries and provide accurate and relevant responses.",
-      backgroundUrl: "assets/benefits/card-6.svg",
-      iconUrl: benefitIcon2,
-      imageUrl: benefitImage2,
-    },
+    
   ];
   
   export const socials = [

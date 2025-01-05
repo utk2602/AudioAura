@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw } from 'react-feather';
 import { Button } from './Button'; // Assuming a Button component exists
-import Visualizer from './Visualizer'; // Assuming a Visualizer component exists
+import Visualizer from './visualizer'; // Assuming a Visualizer component exists
 
 const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);

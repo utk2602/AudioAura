@@ -90,7 +90,7 @@ const Hero = ({ onGetStarted }) => {
           </div>
 
           {/* Parallax Background Image */}
-          <ScrollParallax speed={-5} className="absolute -top-[54%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[46%] md:w-[138%] lg:-top-[104%]">
+          <ScrollParallax speed={-100} className="absolute -top-[54%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[46%] md:w-[138%] lg:-top-[104%]">
             <img
               src={heroBackground}
               className="w-full"

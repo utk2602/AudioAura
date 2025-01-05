@@ -192,7 +192,7 @@ export default function AudioVisualizer({ file }) {
           centerY + Math.sin(triangleAngle - 0.4) * triangleRadius * 0.7
         );
         ctx.closePath();
-        ctx.strokeStyle = 'rgba(48, 21, 75, 0.3)';
+        ctx.strokeStyle = 'rgba(52, 61, 109, 0.3)';
         ctx.stroke();
       }
     };
