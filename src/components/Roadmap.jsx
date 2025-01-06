@@ -5,6 +5,7 @@ import Tagline from "./Tagline";
 import { roadmap } from "../constants";
 import { check2, grid, loading1 } from "../assets";
 import { Gradient } from "./design/Roadmap";
+import { loading } from "../assets";
 
 const Roadmap = () => (
   <Section className="overflow-hidden" id="roadmap">
@@ -48,7 +49,7 @@ const Roadmap = () => (
                     </div>
                   </div>
 
-                  <div className="mb-10 -my-10 -mx-15">
+                  <div className="mb-10 -my-10 -mx-15 ">
                     <img
                       className="w-full"
                       src={item.imageUrl}

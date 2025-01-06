@@ -202,7 +202,7 @@ export default function AudioVisualizer({ file }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-[#10102F]">
-      <div className="relative w-full h-full flex flex-col">
+      <div className="fixed w-full h-full flex flex-col">
         <canvas
           ref={canvasRef}
           width={1920}

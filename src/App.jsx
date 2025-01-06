@@ -11,10 +11,13 @@ const App=() => {
   return (
     <>
     
-    <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
+    <div className="pt-[4.75rem] lg:pt-[5.25rem] position-fixed">
      <Header/>
      <Hero/>
+     </div>
+     <div>
      <Benefits/>
+</div><div>
      <Roadmap/>
      <Pricing/>
     </div>
