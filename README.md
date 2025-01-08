@@ -1,8 +1,25 @@
-# React + Vite
+Audio Aura
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Audio Aura is an interactive web application that visualizes audio files by transforming sound into stunning visuals. Simply upload an audio file, and watch it come to life as a dynamic visual experience.
 
-Currently, two official plugins are available:
+Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Check out the live version of Audio Aura here: Audio Aura
+
+Features
+
+Audio Upload: Upload your own audio files to generate visuals.
+
+Dynamic Visualization: Real-time audio visualization synced with playback.
+
+Responsive Design: Works seamlessly across devices and screen sizes.
+
+Technologies Used
+
+Frontend: React.js
+
+Backend: Node.js (if applicable, clarify backend setup)
+
+Audio Processing: Web Audio API or any other relevant library
+
+Deployment: Vercel
